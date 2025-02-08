@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица</title>
+    
+    <!-- ну типа css -->
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        .orange {
+            background-color: orange;
+        }
+    </style>
+
+</head>
+<body>
+
+    <h2>Таблица 5x6 соо случайным числами</h2>
+    <table id="randomTable"></table>
+    <button onclick="addNumber()">Добавить число</button>
+     <!-- это уже js -->
+    <script>
+        function createRandomArray(length, max) {
+            return Array.from({ length }, () => Math.floor(Math.random() * (max + 1)));
+        }
+        // функция для создания таблицы
+        function createTable(rows, cols, numbers) {
+            const table = document.getElementById('randomTable');
+            table.innerHTML = '';
+
+            for (let i = 0; i < rows; i++) {
+                const row = table.insertRow();
+                for (let j = 0; j < cols; j++) {
+                    const cell = row.insertCell();
+                    const number = numbers[i * cols + j];
+                    cell.textContent = number;
+                    if (number >= 50) {
+                        cell.classList.add('orange');
+                    }
+                }
+            }
+        }
+        // функция для добавления случайного числа в таблицу
+        function addNumber() {
+            const newNumber = Math.floor(Math.random() * 100);
+            const table = document.getElementById('randomTable');
+            const cells = table.getElementsByTagName('td');
+            for (let cell of cells) {
+                if (cell.textContent === '') {
+                    cell.textContent = newNumber;
+                    if (newNumber >= 50) {
+                        cell.classList.add('orange');
+                    }
+                    return;
+                }
+            }
+            // если все ячейки заполнены, добавляем новую строку
+            const newRow = table.insertRow();
+            for (let j = 0; j < 6; j++) {
+                const cell = newRow.insertCell();
+                if (j === 0) {
+                    cell.textContent = newNumber;
+                    if (newNumber >= 50) {
+                        cell.classList.add('orange');
+                    }
+                } else {
+                    cell.textContent = '';
+                }
+            }
+        }
+        const numbers = createRandomArray(30, 99);
+        createTable(5, 6, numbers);
+    </script>
+
+</body>
+</html>
